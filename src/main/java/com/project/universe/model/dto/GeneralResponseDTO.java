@@ -14,11 +14,11 @@ public class GeneralResponseDTO {
 	private Date created_on;
 
 	public GeneralResponseDTO(General general) {
-		this.user_id = getUser_id();
-		this.username = getUsername();
-		this.password = getPassword();
-		this.email = getEmail();
-		this.created_on = getCreated_on();
+		this.user_id = general.getUser_id();
+		this.username = general.getUsername();
+		this.password = general.getPassword();
+		this.email = general.getEmail();
+		this.created_on = general.getCreatedOn();
 	}
 
 	public int getUser_id() {

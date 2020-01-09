@@ -1,5 +1,4 @@
 # Propriedades da aplicação Spring Boot
-spring:
 profiles: universe
 
 # Configurações da aplicação

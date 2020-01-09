@@ -34,8 +34,8 @@ public class GeneralController {
 	
 	@GetMapping(value = "/get")
 	public ResponseEntity<List<GeneralResponseDTO>> listarAll() throws SQLException {
-		List<GeneralResponseDTO> produtos = generalServiceImpl.getAll();
-		return ResponseEntity.ok().body(produtos);
+		List<GeneralResponseDTO> resultado = generalServiceImpl.get();
+		return ResponseEntity.ok().body(resultado);
 	}
 
 	@GetMapping(value = "")
