@@ -1,0 +1,52 @@
+# Propriedades da aplicação Spring Boot
+spring:
+profiles: universe
+
+# Configurações da aplicação
+universe:
+  backing-services:
+    database:
+      username: UniverseAdmin
+      password: admin
+      url: jdbc:postgresql://localhost:5432/UniverseDataBase
+      driver-class-name: org.postgresql.Driver   
+
+# Porta do servidor
+server:
+  port: 8080
+
+# Configurações da biblioteca core do Arsenal
+arsenal:
+  library:
+    core:
+      api:
+        enable-docs: true # Ativar documentação Swagger/OpenAPI
+        docs-base-package: com.project.universe.controller # Pacote onde se encontram as classes de controller
+      log:
+        stack-depth: 999 # Profundide máxima das stack traces que serão escritas nos logs
+        stack-size: 99999 # Quantidade máxima de caracteres das stack traces que serão escritas nos logs
+      auth:
+        enabled: false 
+        debug: true
+
+# Configurações de banco de dados
+spring.jpa:
+  show-sql: true
+  generate-ddl: false
+  hibernate:
+    ddl-auto: none
+
+logging:
+  group:
+    web: org.springframework.core.codec, org.springframework.http, org.springframework.web
+    spring: org.springframework.core.env
+    servlet: org.springframework.boot.web, org.apache.catalina, org.apache.coyote, org.apache.tomcat
+    data: org.springframework.jdbc.core, org.hibernate.sql, org.springframework.orm.jpa, com.zaxxer.hikari, org.hibernate, org.jooq.tools.LoggerListener
+    app: com.project.universe
+  level:
+    root: WARN
+    spring: INFO
+    app: DEBUG
+    servlet: WARN
+    web: WARN
+    data: INFO
