@@ -4,15 +4,23 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
 import javax.persistence.Table;
+
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import com.project.universe.model.dto.GeneralRequestDTO;
 import com.project.universe.model.dto.GeneralResponseDTO;
+import javax.persistence.InheritanceType;
 
 
 @Entity
 @Table(name = "tabela_teste")
+@EntityListeners(AuditingEntityListener.class)
+@Inheritance(strategy = InheritanceType.JOINED)
+
 public class General {
 	@Id
 	@Column(name = "user_id")

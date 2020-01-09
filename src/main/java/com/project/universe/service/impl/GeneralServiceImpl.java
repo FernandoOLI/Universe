@@ -25,6 +25,10 @@ public class GeneralServiceImpl implements GeneralService {
 		return repository.findAll().stream().map(General::toDTO).collect(Collectors.toList());
 	}
 
+	public List<GeneralResponseDTO> get() {
+		return repository.find().stream().map(General::toDTO).collect(Collectors.toList());
+	}
+
 	public GeneralResponseDTO insert(GeneralRequestDTO generalDto) {
 		General logs = General.fromDTO(generalDto);
 		return General.toDTO(repository.save(logs));

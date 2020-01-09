@@ -8,6 +8,6 @@ import com.project.universe.model.dto.GeneralResponseDTO;
  */
 public interface GeneralService {
 
-	public GeneralResponseDTO insert(GeneralRequestDTO log);
+	public GeneralResponseDTO insert(GeneralRequestDTO general);
 
 }
