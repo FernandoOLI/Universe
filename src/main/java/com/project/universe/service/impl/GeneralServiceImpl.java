@@ -3,6 +3,8 @@ package com.project.universe.service.impl;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.project.universe.model.General;
@@ -25,14 +27,24 @@ public class GeneralServiceImpl implements GeneralService {
 		return repository.findAll().stream().map(General::toDTO).collect(Collectors.toList());
 	}
 
-	public GeneralResponseDTO insert(GeneralRequestDTO generalDto) {
-		General logs = General.fromDTO(generalDto);
-		return General.toDTO(repository.save(logs));
+	public ResponseEntity<String> insert(GeneralRequestDTO generalDto) {
+		if (validateCreate(General.fromDTO(generalDto))) {
+			General generais = General.fromDTO(generalDto);
+			General.toDTO(repository.save(generais));
+			return new ResponseEntity<>("Dados inseridos com sucesso!", HttpStatus.OK);
+		}
+		return new ResponseEntity<>("Dados já existentes!", HttpStatus.OK);
 	}
 
-	public boolean delete(long user_id) {
-		repository.deleteById(user_id);
-		return repository.findByUserId((int) user_id).isEmpty();
+	public ResponseEntity<String> delete(int user_id) {
+		if (!repository.findByUserId(user_id).isEmpty()) {
+			repository.deleteByUserId(user_id);
+			return new ResponseEntity<>("Dados deletados com sucesso!", HttpStatus.OK);
+		}
+		return new ResponseEntity<>("Dados não existentes!", HttpStatus.OK);
 	}
 
+	public boolean validateCreate(General general) {
+		return repository.findByUserId(general.getUserId()).isEmpty();
+	}
 }
