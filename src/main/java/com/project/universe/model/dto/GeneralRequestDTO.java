@@ -7,29 +7,29 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class GeneralRequestDTO {
 
-	private int user_id;
+	private int userId;
 	private String username;
 	private String password;
 	private String email;
-	private Date created_on;
+	private Date createdOn;
 
 	@JsonCreator
-	public GeneralRequestDTO(@JsonProperty("user_id") int user_id, @JsonProperty("username") String username,
+	public GeneralRequestDTO(@JsonProperty("userId") int userId, @JsonProperty("username") String username,
 			@JsonProperty("password") String password, @JsonProperty("email") String email,
-			@JsonProperty("created_on") Date created_on) {
-		this.user_id = user_id;
+			@JsonProperty("createdOn") Date createdOn) {
+		this.userId = userId;
 		this.username = username;
 		this.password = password;
 		this.email = email;
-		this.created_on = created_on;
+		this.createdOn = createdOn;
 	}
 
-	public int getUser_id() {
-		return user_id;
+	public int getuserId() {
+		return userId;
 	}
 
-	public void setUser_id(int user_id) {
-		this.user_id = user_id;
+	public void setuserId(int userId) {
+		this.userId = userId;
 	}
 
 	public String getUsername() {
@@ -56,12 +56,12 @@ public class GeneralRequestDTO {
 		this.email = email;
 	}
 
-	public Date getCreated_on() {
-		return created_on;
+	public Date getcreatedOn() {
+		return createdOn;
 	}
 
-	public void setCreated_on(Date created_on) {
-		this.created_on = created_on;
+	public void setcreatedOn(Date createdOn) {
+		this.createdOn = createdOn;
 	}
 
 }

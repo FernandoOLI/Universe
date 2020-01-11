@@ -24,7 +24,7 @@ import javax.persistence.InheritanceType;
 public class General {
 	@Id
 	@Column(name = "user_id")
-	private int user_id;
+	private int userId;
 	@Column(name = "username", nullable = true)
 	private String username;
 	@Column(name = "password", nullable = true)
@@ -32,14 +32,14 @@ public class General {
 	@Column(name = "email", nullable = true)
 	private String email;
 	@Column(name = "created_on", nullable = true)
-	private Date created_on;
+	private Date createdOn;
 
-	public General(int user_id, String username, String password, String email, Date created_on) {
-		this.user_id = user_id;
+	public General(int userId, String username, String password, String email, Date createdOn) {
+		this.userId = userId;
 		this.username = username;
 		this.password = password;
 		this.email = email;
-		this.created_on = created_on;
+		this.createdOn = createdOn;
 	}
 
 	public General() {
@@ -47,20 +47,20 @@ public class General {
 	}
 
 	public static General fromDTO(GeneralRequestDTO general) {
-		return new General(general.getUser_id(), general.getUsername(), general.getPassword(), general.getEmail(),
-				general.getCreated_on());
+		return new General(general.getuserId(), general.getUsername(), general.getPassword(), general.getEmail(),
+				general.getcreatedOn());
 	}
 
 	public static GeneralResponseDTO toDTO(General general) {
 		return new GeneralResponseDTO(general);
 	}
 
-	public int getUser_id() {
-		return user_id;
+	public int getUserId() {
+		return userId;
 	}
 
-	public void setUser_id(int user_id) {
-		this.user_id = user_id;
+	public void setuserId(int userId) {
+		this.userId = userId;
 	}
 
 	public String getUsername() {
@@ -88,11 +88,11 @@ public class General {
 	}
 
 	public Date getCreatedOn() {
-		return created_on;
+		return createdOn;
 	}
 
-	public void setCreatedOn(Date created_on) {
-		this.created_on = created_on;
+	public void setCreatedOn(Date createdOn) {
+		this.createdOn = createdOn;
 	}
 
 }

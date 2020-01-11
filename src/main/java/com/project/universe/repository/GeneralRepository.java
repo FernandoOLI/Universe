@@ -15,7 +15,6 @@ public interface GeneralRepository extends JpaRepository<General, Long> {
 
 	List<General> findByUsername(String Username);
 	
-	@Query("select e from General e where user_id = 1")
-	List<General> find();
+	List<General> findByUserId(int user_id);
 
 }

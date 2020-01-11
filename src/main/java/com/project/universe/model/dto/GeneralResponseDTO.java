@@ -14,7 +14,7 @@ public class GeneralResponseDTO {
 	private Date created_on;
 
 	public GeneralResponseDTO(General general) {
-		this.user_id = general.getUser_id();
+		this.user_id = general.getUserId();
 		this.username = general.getUsername();
 		this.password = general.getPassword();
 		this.email = general.getEmail();
