@@ -18,4 +18,5 @@ public interface GeneralRepository extends JpaRepository<General, Long> {
 	
 	void deleteByUserId(int user_id);
 
+
 }

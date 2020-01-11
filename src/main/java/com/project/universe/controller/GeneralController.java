@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -42,9 +43,14 @@ public class GeneralController {
 
 	}
 
-	@DeleteMapping(value = { "/delete/{id}" })
+	@DeleteMapping(value = "/delete/{id}")
 	public ResponseEntity<String> delete(@PathVariable int id) {
 		return generalServiceImpl.delete(id);
+	}
+
+	@PutMapping(value = "/update/{id}")
+	public ResponseEntity<String> update(@RequestBody GeneralRequestDTO general,@PathVariable int id) {
+		return generalServiceImpl.update(general,id);
 	}
 
 }

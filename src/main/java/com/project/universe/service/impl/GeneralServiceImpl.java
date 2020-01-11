@@ -44,6 +44,18 @@ public class GeneralServiceImpl implements GeneralService {
 		return new ResponseEntity<>("Dados não existentes!", HttpStatus.OK);
 	}
 
+	public ResponseEntity<String> update(GeneralRequestDTO generalDto, int id) {
+		if (!repository.findByUserId(id).isEmpty()) {
+			if(id==generalDto.getuserId()) {
+			General generais = General.fromDTO(generalDto);
+			General.toDTO(repository.save(generais));
+			return new ResponseEntity<>("Dados atualizados com sucesso!", HttpStatus.OK);
+			}
+			else return new ResponseEntity<>("Dados não atualizados! Id inserido diferente do dado a ser atualizado", HttpStatus.OK);
+		}
+		return new ResponseEntity<>("Dados não existentes!", HttpStatus.OK);
+	}
+
 	public boolean validateCreate(General general) {
 		return repository.findByUserId(general.getUserId()).isEmpty();
 	}
