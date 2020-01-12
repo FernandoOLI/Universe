@@ -4,11 +4,11 @@ ARG APP_PATH="/app"
 ########################
 # Maven & Dependencias #
 ########################
-FROM artifactory.santanderbr.corp/registry/javase-11:2.0.0.RELEASE as dependencies
+FROM -11:2.0.0.RELEASE as dependencies
 
 ARG USER_HOME_DIR="/root"
 ARG SHA=707b1f6e390a65bde4af4cdaf2a24d45fc19a6ded00fff02e91626e3e42ceaff
-ARG BASE_URL=http://artifactory.produbanbr.corp/artifactory/raw-downloads
+ARG BASE_URL=
 
 ENV MAVEN_HOME /usr/share/maven
 ENV MAVEN_CONFIG "$USER_HOME_DIR/.m2"
@@ -59,14 +59,14 @@ RUN mvn compile test
 ###############
 ## APLICACAO ##
 ###############
-FROM artifactory.santanderbr.corp/registry/javase-11:2.0.0.RELEASE
+FROM javase-11:2.0.0.RELEASE
 ARG APP_PATH
 ARG NAME
 ARG VERSION
-LABEL VENDOR=Santander
+LABEL VENDOR=
 LABEL NAME=$NAME
 LABEL VERSION=$VERSION
-LABEL MAINTAINER="developer@santander.com.br"
+LABEL MAINTAINER=""
 
 
 USER root
