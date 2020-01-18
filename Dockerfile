@@ -1,90 +1,19 @@
-ARG BUILD_ARGS=""
-ARG APP_PATH="/app"
+FROM phusion/baseimage:0.9.17
+RUN echo "deb http://archive.ubuntu.com/ubuntu trusty main universe" > /etc/apt/sources.list
+RUN apt-get -y update
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y -q python-software-properties software-properties-common
+ENV JAVA_VER 8
+ENV JAVA_HOME /usr/lib/jvm/java-8-oracle
+RUN echo 'deb http://ppa.launchpad.net/webupd8team/java/ubuntu trusty main' >> /etc/apt/sources.list && \
+ echo 'deb-src http://ppa.launchpad.net/webupd8team/java/ubuntu trusty main' >> /etc/apt/sources.list && \
+ apt-key adv --keyserver keyserver.ubuntu.com --recv-keys C2518248EEA14886 && \
+ apt-get update && \
+ echo oracle-java${JAVA_VER}-installer shared/accepted-oracle-license-v1-1 select true | sudo /usr/bin/debconf-set-selections && \
+ apt-get install -y --force-yes --no-install-recommends oracle-java${JAVA_VER}-installer oracle-java${JAVA_VER}-set-default && \
+ apt-get clean && \
+ rm -rf /var/cache/oracle-jdk${JAVA_VER}-installer
 
-########################
-# Maven & Dependencias #
-########################
-FROM -11:2.0.0.RELEASE as dependencies
-
-ARG USER_HOME_DIR="/root"
-ARG SHA=707b1f6e390a65bde4af4cdaf2a24d45fc19a6ded00fff02e91626e3e42ceaff
-ARG BASE_URL=
-
-ENV MAVEN_HOME /usr/share/maven
-ENV MAVEN_CONFIG "$USER_HOME_DIR/.m2"
-
-ARG APP_PATH
-WORKDIR $APP_PATH
-
-USER root
-COPY . $APP_PATH/
-RUN mkdir -p /usr/share/maven /usr/share/maven/ref \
-  && curl -fsSL -o /tmp/apache-maven.tar.gz ${BASE_URL}/apache-maven-3.5.2-bin.tar.gz \
-  && echo "${SHA}  /tmp/apache-maven.tar.gz" | sha256sum -c - \
-  && tar -xzf /tmp/apache-maven.tar.gz -C /usr/share/maven --strip-components=1 \
-  && rm -f /tmp/apache-maven.tar.gz \
-  && ln -s /usr/share/maven/bin/mvn /usr/bin/mvn \
-  && chown -R java:java /usr/share/maven \
-  && chown -R java:java /app
-
-#///////////////////////////
-# Start Copia do workspace /
-#///////////////////////////
-USER java
-COPY .ci/files/settings.xml $MAVEN_HOME/conf
-RUN mvn -B -Dmaven.test.skip=true clean dependency:go-offline dependency:resolve \
-  && rm -rf target/
-
-#################
-# BUILD/PACKAGE #
-#################
-FROM dependencies as build
-
-ARG BUILD_ARGS
-ARG APP_PATH
-WORKDIR $APP_PATH
-# Copia do projeto foi realizada no Stage DEPENDENCIES
-RUN mvn -DskipTests package
-
-####################
-# TESTES UNITARIOS #
-####################
-FROM dependencies as unit_tests
-
-ARG APP_PATH
-WORKDIR $APP_PATH
-# Copia do projeto foi realizada no Stage DEPENDENCIES
-RUN mvn compile test
-
-###############
-## APLICACAO ##
-###############
-FROM javase-11:2.0.0.RELEASE
-ARG APP_PATH
-ARG NAME
-ARG VERSION
-LABEL VENDOR=
-LABEL NAME=$NAME
-LABEL VERSION=$VERSION
-LABEL MAINTAINER=""
-
-
-USER root
-# Mude para sua extensao .jar ou .war
-ENV APP *.jar
-ENV APP_HOME $APP_PATH
-
-WORKDIR $APP_PATH
-# Copia os artefatos gerados na Stage BUILD
-COPY .ci/ ./.ci
-COPY --from=build $APP_PATH/target/$APP $APP_PATH/entrypoint.sh ./
-RUN chown -R java:java .
-USER java
-
-#############
-#   PAAS    #
-#############
-
-COPY Dockerfile $IMAGE_SCRIPTS_HOME/Dockerfile
-
-ENTRYPOINT [ "/bin/sh", "entrypoint.sh" ]
+RUN update-java-alternatives -s java-8-oracle
+RUN echo "export JAVA_HOME=/usr/lib/jvm/java-8-oracle" >> ~/.bashrc
+RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+CMD ["/sbin/my_init"]
