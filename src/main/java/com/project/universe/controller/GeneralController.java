@@ -35,6 +35,12 @@ public class GeneralController {
 		List<GeneralResponseDTO> produtos = generalServiceImpl.getAll();
 		return ResponseEntity.ok().body(produtos);
 	}
+	
+	@GetMapping(value = "/values/{username}")
+	public ResponseEntity<List<GeneralResponseDTO>> listarUser(@PathVariable String username) throws SQLException {
+		List<GeneralResponseDTO> produtos = generalServiceImpl.getByUsername(username);
+		return ResponseEntity.ok().body(produtos);
+	}
 
 	@PostMapping(path = "/save")
 	public ResponseEntity<String> Save(@RequestBody GeneralRequestDTO general) {

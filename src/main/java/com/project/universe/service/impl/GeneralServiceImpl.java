@@ -20,7 +20,7 @@ public class GeneralServiceImpl implements GeneralService {
 	@Autowired
 	private GeneralRepository repository;
 
-	public List<GeneralResponseDTO> getByTabela(String username) {
+	public List<GeneralResponseDTO> getByUsername(String username) {
 		return repository.findByUsername(username).stream().map(General::toDTO).collect(Collectors.toList());
 	}
 	@CachePut("general")
