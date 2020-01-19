@@ -41,6 +41,10 @@ public class General {
 		this.createdOn = createdOn;
 	}
 
+	public General() {
+		super();
+	}
+
 	public static General fromDTO(GeneralRequestDTO general) {
 		return new General(general.getuserId(), general.getUsername(), general.getPassword(), general.getEmail(),
 				general.getcreatedOn());
@@ -48,6 +52,26 @@ public class General {
 
 	public static GeneralResponseDTO toDTO(General general) {
 		return new GeneralResponseDTO(general);
+	}
+
+	public void setUserId(int userId) {
+		this.userId = userId;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public void setCreatedOn(Date createdOn) {
+		this.createdOn = createdOn;
 	}
 
 	public int getUserId() {

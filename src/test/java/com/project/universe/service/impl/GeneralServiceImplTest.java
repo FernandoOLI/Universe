@@ -3,8 +3,6 @@ package com.project.universe.service.impl;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -12,25 +10,20 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.ws.rs.core.Response;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 
-import com.project.universe.UniverseApplicationTests;
 import com.project.universe.model.General;
 import com.project.universe.model.dto.GeneralRequestDTO;
 import com.project.universe.model.dto.GeneralResponseDTO;
 import com.project.universe.repository.GeneralRepository;
 
 @ExtendWith(MockitoExtension.class)
-class GeneralServiceImplTest extends UniverseApplicationTests {
+class GeneralServiceImplTest {
 
 	@InjectMocks
 	GeneralServiceImpl service;
@@ -79,12 +72,6 @@ class GeneralServiceImplTest extends UniverseApplicationTests {
 		assertThat(response.get(0).getUsername(), is(equalTo("testeName")));
 		assertThat(response.size(), is(equalTo(1)));
 		verify(repository).findByUsername("testeName");
-	}
-
-	@Test
-	void should_update() {
-		when(repository.findByUserId(general.getUserId())).thenReturn(lista);
-		assertEquals(service.update(generalDto,1).getStatusCode(),HttpStatus.OK);
 	}
 
 }
