@@ -23,6 +23,7 @@ public class GeneralServiceImpl implements GeneralService {
 	public List<GeneralResponseDTO> getByUsername(String username) {
 		return repository.findByUsername(username).stream().map(General::toDTO).collect(Collectors.toList());
 	}
+
 	@CachePut("general")
 	public List<GeneralResponseDTO> getAll() {
 		return repository.findAll().stream().map(General::toDTO).collect(Collectors.toList());
@@ -37,6 +38,7 @@ public class GeneralServiceImpl implements GeneralService {
 		}
 		return new ResponseEntity<>("Dados já existentes!", HttpStatus.OK);
 	}
+
 	@CachePut("general")
 	public ResponseEntity<String> delete(int user_id) {
 		if (!repository.findByUserId(user_id).isEmpty()) {
@@ -45,16 +47,17 @@ public class GeneralServiceImpl implements GeneralService {
 		}
 		return new ResponseEntity<>("Dados não existentes!", HttpStatus.OK);
 	}
-	
+
 	@CachePut("general")
 	public ResponseEntity<String> update(GeneralRequestDTO generalDto, int id) {
 		if (!repository.findByUserId(id).isEmpty()) {
-			if(id==generalDto.getuserId()) {
-			General generais = General.fromDTO(generalDto);
-			General.toDTO(repository.save(generais));
-			return new ResponseEntity<>("Dados atualizados com sucesso!", HttpStatus.OK);
-			}
-			else return new ResponseEntity<>("Dados não atualizados! Id inserido diferente do dado a ser atualizado", HttpStatus.OK);
+			if (id == generalDto.getuserId()) {
+				General generais = General.fromDTO(generalDto);
+				General.toDTO(repository.save(generais));
+				return new ResponseEntity<>("Dados atualizados com sucesso!", HttpStatus.OK);
+			} else
+				return new ResponseEntity<>("Dados não atualizados! Id inserido diferente do dado a ser atualizado",
+						HttpStatus.OK);
 		}
 		return new ResponseEntity<>("Dados não existentes!", HttpStatus.OK);
 	}
@@ -62,6 +65,9 @@ public class GeneralServiceImpl implements GeneralService {
 	private boolean validateCreate(General general) {
 		return repository.findByUserId(general.getUserId()).isEmpty();
 	}
-	
-	
+
+	public boolean login(String username, String password) {
+		return !repository.findByUsernameAndPassword(username, password).isEmpty();
+	}
+
 }

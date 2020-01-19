@@ -68,7 +68,7 @@ class GeneralServiceImplTest {
 	@Test
 	void should_bring_one() {
 		when(repository.findByUsername("testeName")).thenReturn(lista);
-		List<GeneralResponseDTO> response = service.getByTabela("testeName");
+		List<GeneralResponseDTO> response = service.getByUsername("testeName");
 		assertThat(response.get(0).getUsername(), is(equalTo("testeName")));
 		assertThat(response.size(), is(equalTo(1)));
 		verify(repository).findByUsername("testeName");

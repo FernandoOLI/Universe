@@ -35,7 +35,12 @@ public class GeneralController {
 		List<GeneralResponseDTO> produtos = generalServiceImpl.getAll();
 		return ResponseEntity.ok().body(produtos);
 	}
-	
+
+	@GetMapping(value = "/login/{username}/{password}")
+	public boolean login(@PathVariable String username, @PathVariable String password) {
+		return generalServiceImpl.login(username, password);
+	}
+
 	@GetMapping(value = "/values/{username}")
 	public ResponseEntity<List<GeneralResponseDTO>> listarUser(@PathVariable String username) throws SQLException {
 		List<GeneralResponseDTO> produtos = generalServiceImpl.getByUsername(username);
@@ -55,8 +60,8 @@ public class GeneralController {
 	}
 
 	@PutMapping(value = "/update/{id}")
-	public ResponseEntity<String> update(@RequestBody GeneralRequestDTO general,@PathVariable int id) {
-		return generalServiceImpl.update(general,id);
+	public ResponseEntity<String> update(@RequestBody GeneralRequestDTO general, @PathVariable int id) {
+		return generalServiceImpl.update(general, id);
 	}
 
 }
